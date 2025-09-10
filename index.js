@@ -5,10 +5,16 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 
-app.get("/proxy", (req, res) => {
+// Stealth route
+app.get("/go", (req, res) => {
   const url = req.query.url;
   if (!url) return res.status(400).send("No URL provided.");
   request(url).pipe(res);
+});
+
+// Friendly root page
+app.get("/", (req, res) => {
+  res.send("Proxy is running! Use /go?url=YOUR_URL to access a site.");
 });
 
 const PORT = process.env.PORT || 10000;
